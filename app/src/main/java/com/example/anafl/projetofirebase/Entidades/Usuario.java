@@ -1,4 +1,4 @@
-package com.example.anafl.projetofirebase.Activity;
+package com.example.anafl.projetofirebase.Entidades;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
@@ -10,11 +10,10 @@ import java.util.Map;
  * Created by anafl on 23/03/2018.
  */
 
-public class Usuarios {
+public class Usuario {
 
     private String id;
     private String nome;
-    private String nomeUsuario;
     private String senha;
     private String confSenha;
     private String cep;
@@ -24,7 +23,7 @@ public class Usuarios {
     private String telefone;
 
 
-    public Usuarios(){
+    public Usuario(){
     }
     @Exclude
     public Map<String,Object> toMap(){
@@ -64,14 +63,6 @@ public class Usuarios {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getNomeUsuario() {
-        return nomeUsuario;
-    }
-
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
     }
 
     public String getSenha() {

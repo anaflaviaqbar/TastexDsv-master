@@ -1,6 +1,5 @@
 package com.example.anafl.projetofirebase.Activity;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-import com.example.anafl.projetofirebase.Activity.Usuarios;
+
+import com.example.anafl.projetofirebase.Entidades.Usuario;
 import com.example.anafl.projetofirebase.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,9 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-//import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-//import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -35,23 +31,29 @@ public class CadastroActivity extends AppCompatActivity {
     private RadioButton rbFeminino;
     private EditText edtCadCep;
     private Button btnGravar;
-    private Usuarios usuarios;
-    private FirebaseAuth autenticacao;
-    private DatabaseReference database;
+    private Usuario usuario;
+
+    private FirebaseAuth mAuth;
+    //private DatabaseReference database;
+    private DatabaseReference mDatabase;
 
     private String uid;
 
     private boolean isFeminino = false;
     private boolean isMasculino = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        autenticacao = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        //database = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        edtCadEmail = (EditText) findViewById(R.id.edtEmail);
+
+
+        edtCadEmail = (EditText) findViewById(R.id.edtCadEmail);
         edtCadNome = (EditText) findViewById(R.id.edtCadNome);
         edtCadCep = (EditText) findViewById(R.id.edtCadCep);
         edtCadDataNasc = (EditText) findViewById(R.id.edtCadDataNasc);
@@ -74,43 +76,27 @@ public class CadastroActivity extends AppCompatActivity {
             }
         });
 
-
     }
-                    // usuarios = new Usuarios();
-                    //usuarios.setNome(edtCadNome.getText().toString());
-                    //usuarios.setEmail(edtCadEmail.getText().toString());
-                    //usuarios.setCep(edtCadCep.getText().toString());
-                    //usuarios.setDataNasc(edtCadDataNasc.getText().toString());
-                    //usuarios.setSenha(edtCadSenha.getText().toString());
-                    //if (rbFeminino.isChecked()) {
-                    //  usuarios.setSexo("Feminino");
-                    //} else {
-                    //  usuarios.setSexo("Masculino");
-                    //}
-             //   } else {
-               //     Toast.makeText(CadastroActivity.this, "As senhas não são correspondentes", Toast.LENGTH_LONG).show();
-                //}
-        //});
-//}
 
     private void cadastrarUsuario(String email, String password) {
-        autenticacao.createUserWithEmailAndPassword(email, password)
+
+
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = autenticacao.getCurrentUser();
-                            //updateUI(user);
-                            novoUsuario(user.getUid());
-                            Toast.makeText(CadastroActivity.this, "Cadastro feito sucesso!", Toast.LENGTH_LONG).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            writeNewUser(user.getUid());
+                            Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_LONG).show();
                             finish();
+                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(CadastroActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastroActivity.this, "Authentication failed",Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
                         // ...
@@ -118,6 +104,7 @@ public class CadastroActivity extends AppCompatActivity {
                 });
     }
 
+    /*
     public void abrirLoginUsuario() {
         Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -128,7 +115,7 @@ public class CadastroActivity extends AppCompatActivity {
         Intent intentAbreRedefine = new Intent(CadastroActivity.this, EsqueceuSenha.class);
         startActivity(intentAbreRedefine);
         finish();
-    }
+    }*/
 
     public void checaSexo(View v) {
         boolean checked = ((RadioButton) v).isChecked();
@@ -147,22 +134,44 @@ public class CadastroActivity extends AppCompatActivity {
                 }
         }
     }
-    private void novoUsuario(String userId) {
-        Usuarios usuarios = new Usuarios();
+    /*
+        private void escreverNovoUsuario(String userId) {
+            Usuario usuario = new Usuario();
 
-        usuarios.setNome(edtCadNome.getText().toString());
-        usuarios.setEmail(edtCadEmail.getText().toString());
-        usuarios.setCep(edtCadCep.getText().toString());
-        usuarios.setTelefone(edtCadContato.getText().toString());
-        usuarios.setDataNasc(edtCadDataNasc.getText().toString());
-        usuarios.setSenha(edtCadSenha.getText().toString());
-        if(isFeminino){
-            usuarios.setSexo("Feminino");
-        }else if(isMasculino){
-            usuarios.setSexo("Masculino");
+            usuario.setNome(edtCadNome.getText().toString());
+            usuario.setEmail(edtCadEmail.getText().toString());
+            usuario.setCep(edtCadCep.getText().toString());
+            usuario.setTelefone(edtCadContato.getText().toString());
+            usuario.setDataNasc(edtCadDataNasc.getText().toString());
+            usuario.setSenha(edtCadSenha.getText().toString());
+
+            if(isFeminino){
+                usuario.setSexo("Feminino");
+            }else if(isMasculino){
+                usuario.setSexo("Masculino");
+            }
+            usuario.setId(userId);
+
+            database.child("users").child(userId).setValue(usuario);
         }
-        usuarios.setId(userId);
+        */
+    private void writeNewUser(String userId) {
+        Usuario usuario = new Usuario();
 
-        database.child("users").child(userId).setValue(usuarios);
+        usuario.setNome(edtCadNome.getText().toString());
+        usuario.setEmail(edtCadEmail.getText().toString());
+        usuario.setCep(edtCadCep.getText().toString());
+        usuario.setTelefone(edtCadContato.getText().toString());
+        usuario.setDataNasc(edtCadDataNasc.getText().toString());
+        usuario.setSenha(edtCadSenha.getText().toString());
+        if(isFeminino){
+            usuario.setSexo("Feminino");
+        }else if(isMasculino){
+            usuario.setSexo("Masculino");
+        }
+        usuario.setId(userId);
+
+        mDatabase.child("users").child(userId).setValue(usuario);
     }
+
 }

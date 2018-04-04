@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "331660113470-38tu4ke12pof964qufe13m82f80dd8tb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anafl.projetofirebase",
+            "certificate_hash": "7866805fe3eb70822e71d8e64d253d570fe56067"
+          }
+        },
+        {
           "client_id": "331660113470-sa5gdjtjp0p7tqu8f7pdmpco2e1vhue5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
