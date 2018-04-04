@@ -17,7 +17,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:src="@mipmap/tastex2" />
+            android:src="@mipmap/nham2" />
 
         <EditText
             android:layout_width="match_parent"
@@ -40,8 +40,6 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:text="Entrar"
-            android:textColor="@color/colorPrimary"
-            android:background="#FFFFFF"
             android:layout_marginTop="16dp"
            />
 
@@ -54,7 +52,9 @@
             android:gravity="center"/>
 
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
@@ -70,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/tvAbreCadastro">
+        android:layout_above="@+id/tvAbreCadastro"
+        android:layout_marginBottom="50sp">
     </com.google.android.gms.common.SignInButton>
 
 
