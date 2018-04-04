@@ -139,8 +139,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(LoginActivity.this, "Facebook login sucesso!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                finish();
             }
 
             @Override
