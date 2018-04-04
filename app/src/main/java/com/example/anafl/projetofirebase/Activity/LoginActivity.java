@@ -82,19 +82,17 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail = (EditText) findViewById(R.id.edtEmail);
         txtSenha = (EditText) findViewById(R.id.edtSenha);
 
-        // [START config_signin]
-        // Configure Google Sign In
-        /*
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        // [END config_signin]
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        */
+        TextView tvAbreCadastro = (TextView) findViewById(R.id.tvAbreCadastro);
+        tvAbreCadastro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cadastrar = new Intent(LoginActivity.this, CadastroActivity.class);
+                startActivity(cadastrar);
+            }
+        });
 
 
-        // Configure Google Sign In
+        // Login Google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -125,15 +123,9 @@ public class LoginActivity extends AppCompatActivity {
                 signIn(txtEmail.getText().toString(), txtSenha.getText().toString());
             }
         });
+        //Fim Login Google
 
-        TextView tvAbreCadastro = (TextView) findViewById(R.id.tvAbreCadastro);
-        tvAbreCadastro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cadastrar = new Intent(LoginActivity.this, CadastroActivity.class);
-                startActivity(cadastrar);
-            }
-        });
+
 
         //Login Facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -164,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
         });
+        //Fim Login Facebook
 
 
 
