@@ -4,11 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.anafl.projetofirebase.Entidades.Usuario;
+import com.example.anafl.projetofirebase.Listas.VendedorAdapter;
 import com.example.anafl.projetofirebase.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +27,11 @@ public class Comprar extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private RecyclerView mRecyclerView;
+    private VendedorAdapter vendedorAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private List<Usuario> listVendedores;
     public Comprar() {
         // Required empty public constructor
     }
@@ -29,7 +41,45 @@ public class Comprar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comprar, container, false);
+        View view = inflater.inflate(R.layout.fragment_comprar, container, false);
+
+
+
+
+        criarListaVendedores();
+
+        //Aqui é instanciado o Recyclerview
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_vendedores);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        vendedorAdapter = new VendedorAdapter(listVendedores);
+        mRecyclerView.setAdapter(vendedorAdapter);
+
+        return view;
+
+
+
+    }
+
+    private void criarListaVendedores() {
+
+        listVendedores = new ArrayList<Usuario>();
+
+        listVendedores.add(new Usuario("Ronaldo"));
+        listVendedores.add(new Usuario("Neymar"));
+        listVendedores.add(new Usuario("Ciclano"));
+        listVendedores.add(new Usuario("Teste"));
+        listVendedores.add(new Usuario("Fulana"));
+        listVendedores.add(new Usuario("Maria"));
+        listVendedores.add(new Usuario("Mariana"));
+        listVendedores.add(new Usuario("Ronaldo"));
+        listVendedores.add(new Usuario("Neymar"));
+        listVendedores.add(new Usuario("Ciclano"));
+        listVendedores.add(new Usuario("Teste"));
+        listVendedores.add(new Usuario("Fulana"));
+        listVendedores.add(new Usuario("Maria"));
+        listVendedores.add(new Usuario("Mariana"));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -69,5 +119,11 @@ public class Comprar extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void setaRecyclerView() {
+
+        //Aqui é instanciado o Recyclerview
+
     }
 }

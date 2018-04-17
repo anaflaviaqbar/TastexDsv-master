@@ -25,6 +25,9 @@ public class Usuario {
 
     public Usuario(){
     }
+    public Usuario(String nome){
+        this.nome = nome;
+    }
     @Exclude
     public Map<String,Object> toMap(){
         HashMap<String, Object> hashMapUsuario= new HashMap<>();
