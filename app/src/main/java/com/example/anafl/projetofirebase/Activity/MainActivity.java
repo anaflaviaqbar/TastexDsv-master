@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.example.anafl.projetofirebase.Fragments.Ajuda;
 import com.example.anafl.projetofirebase.Fragments.Avisos;
 import com.example.anafl.projetofirebase.Fragments.Comprar;
 import com.example.anafl.projetofirebase.Fragments.Compras;
@@ -25,11 +26,13 @@ import com.example.anafl.projetofirebase.Fragments.Configuracao;
 import com.example.anafl.projetofirebase.Fragments.Vendas;
 import com.example.anafl.projetofirebase.Fragments.Vender;
 import com.example.anafl.projetofirebase.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements Avisos.OnFragmentInteractionListener,
         Configuracao.OnFragmentInteractionListener, Comprar.OnFragmentInteractionListener,
         Vender.OnFragmentInteractionListener,Vendas.OnFragmentInteractionListener,
-        Compras.OnFragmentInteractionListener,NavigationView.OnNavigationItemSelectedListener {
+        Compras.OnFragmentInteractionListener,Ajuda.OnFragmentInteractionListener,
+                NavigationView.OnNavigationItemSelectedListener {
 
 
     @Override
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -82,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_trocarconta) {
+        if (id == R.id.action_logout) {
+            logout();
             return true;
         }
 
@@ -135,7 +139,16 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
             fragmentTransaction.replace(R.id.fram, fragment, "Vendas");
             fragmentTransaction.commit();
 
+        }else if(id==R.id.framAjuda){
+            setTitle("Ajuda e perguntas frequentes");
+            Ajuda fragment = new Ajuda();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fram, fragment, "Ajuda");
+            fragmentTransaction.commit();
+        } else if (id == R.id.logout) {
+            logout();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -145,5 +158,13 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
