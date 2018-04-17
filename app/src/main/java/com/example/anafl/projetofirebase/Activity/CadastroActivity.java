@@ -1,8 +1,11 @@
 package com.example.anafl.projetofirebase.Activity;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -68,6 +74,7 @@ public class CadastroActivity extends AppCompatActivity {
         btnGravar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                validaCampos();
                 if(edtCadSenha.getText().toString().equals(edtConfSenha.getText().toString())){
                     cadastrarUsuario(edtCadEmail.getText().toString(), edtCadSenha.getText().toString());
                 }else{
@@ -93,7 +100,19 @@ public class CadastroActivity extends AppCompatActivity {
                             Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_LONG).show();
                             finish();
                             //updateUI(user);
-                        } else {
+                        }
+                        if(!task.isSuccessful()) {
+                            try{
+                                throw task.getException();
+                            }catch(FirebaseAuthWeakPasswordException e) {
+                                edtCadSenha.setError("Senha curta");
+                            }catch(FirebaseAuthInvalidCredentialsException e){
+                                edtCadEmail.setError("Email inválido");
+                            }catch(FirebaseAuthUserCollisionException e){
+                                edtCadEmail.setError("Email já existe");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(CadastroActivity.this, "Authentication failed",Toast.LENGTH_SHORT).show();
@@ -173,5 +192,40 @@ public class CadastroActivity extends AppCompatActivity {
 
         mDatabase.child("users").child(userId).setValue(usuario);
     }
+    public void validaCampos() {
+        boolean res = false;
+        String nome = edtCadNome.getText().toString();
+        String email = edtCadEmail.getText().toString();
+        String senha = edtCadSenha.getText().toString();
+        String confsenha = edtConfSenha.getText().toString();
+        String cep = edtCadCep.getText().toString();
+        String datanasc = edtCadDataNasc.getText().toString();
 
+        if (res = campoVazio(nome)) {
+            edtCadNome.requestFocus();
+        } else if (res = campoVazio(cep)) {
+            edtCadCep.requestFocus();
+        }else if (res = campoVazio(email)) {
+            edtCadEmail.requestFocus();
+        }else if (res = campoVazio(senha)) {
+            edtCadSenha.requestFocus();
+        }else if(res = campoVazio(confsenha)) {
+            edtConfSenha.requestFocus();
+        }else if (res = campoVazio(datanasc)){
+            edtCadDataNasc.requestFocus();
+
+        }
+
+        if(res){
+            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+            dlg.setTitle("Aviso");
+            dlg.setMessage("Preencha todos os campos");
+            dlg.setNeutralButton("ok", null);
+            dlg.show();
+        }
+    }
+    private boolean campoVazio(String valor){
+        boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
+        return resultado;
+    }
 }
