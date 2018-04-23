@@ -113,6 +113,7 @@ public class CadastroActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(CadastroActivity.this, "Authentication failed",Toast.LENGTH_SHORT).show();
@@ -144,36 +145,18 @@ public class CadastroActivity extends AppCompatActivity {
                 if (checked) {
                     isFeminino = true;
                     isMasculino = false;
+                    //Toast.makeText(CadastroActivity.this, "Feminino", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.rbMasculino:
                 if (checked) {
                     isFeminino = false;
                     isMasculino = true;
+                    //Toast.makeText(CadastroActivity.this, "Masculino", Toast.LENGTH_LONG).show();
                 }
         }
     }
-    /*
-        private void escreverNovoUsuario(String userId) {
-            Usuario usuario = new Usuario();
 
-            usuario.setNome(edtCadNome.getText().toString());
-            usuario.setEmail(edtCadEmail.getText().toString());
-            usuario.setCep(edtCadCep.getText().toString());
-            usuario.setTelefone(edtCadContato.getText().toString());
-            usuario.setDataNasc(edtCadDataNasc.getText().toString());
-            usuario.setSenha(edtCadSenha.getText().toString());
-
-            if(isFeminino){
-                usuario.setSexo("Feminino");
-            }else if(isMasculino){
-                usuario.setSexo("Masculino");
-            }
-            usuario.setId(userId);
-
-            database.child("users").child(userId).setValue(usuario);
-        }
-        */
     private void writeNewUser(String userId) {
         Usuario usuario = new Usuario();
 

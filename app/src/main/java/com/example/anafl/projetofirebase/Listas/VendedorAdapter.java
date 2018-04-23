@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.anafl.projetofirebase.Activity.MainActivity;
 import com.example.anafl.projetofirebase.Entidades.Usuario;
 import com.example.anafl.projetofirebase.R;
 
@@ -41,6 +43,8 @@ public class VendedorAdapter extends RecyclerView.Adapter<VendedorAdapter.ViewHo
         holder.txtTitulo.setText(user.getNome());
         holder.txtDistancia.setText("100m");  //apenas para teste
 
+
+
     }
 
     @Override
@@ -55,6 +59,7 @@ public class VendedorAdapter extends RecyclerView.Adapter<VendedorAdapter.ViewHo
 
         public ViewHolderVendedor(View v) {
             super(v);
+
 
             txtTitulo = (TextView) itemView.findViewById(R.id.txtTituloVendedor);
             txtDistancia = (TextView) itemView.findViewById(R.id.txtDistanciaVendedor);

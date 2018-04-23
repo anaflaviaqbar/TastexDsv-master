@@ -70,6 +70,7 @@
         <!-- Fim Facebook -->
 
         <activity android:name=".Activity.EsqueceuSenha" />
+        <activity android:name=".Activity.AdicionarPratoActivity"></activity>
     </application>
 
 </manifest>

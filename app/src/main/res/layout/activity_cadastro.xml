@@ -50,6 +50,7 @@
             android:id="@+id/edtConfSenha"
             android:hint="Confirmar Senha"
             android:inputType="textPassword"/>
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,11 +61,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Feminino"
+                android:onClick="checaSexo"
                 android:id="@+id/rbFeminino"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Masculino"
+                android:onClick="checaSexo"
                 android:id="@+id/rbMasculino"/>
 
         </RadioGroup>
