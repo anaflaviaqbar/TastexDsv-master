@@ -1,13 +1,9 @@
 package com.example.anafl.projetofirebase.Activity;
 
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.example.anafl.projetofirebase.Fragments.Ajuda;
 import com.example.anafl.projetofirebase.Fragments.Avisos;
+import com.example.anafl.projetofirebase.Fragments.Cadastro;
 import com.example.anafl.projetofirebase.Fragments.Comprar;
 import com.example.anafl.projetofirebase.Fragments.Compras;
 import com.example.anafl.projetofirebase.Fragments.Configuracao;
@@ -139,11 +135,17 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
             fragmentTransaction.replace(R.id.fram, fragment, "Vendas");
             fragmentTransaction.commit();
 
-        }else if(id==R.id.framAjuda){
+        }else if(id==R.id.framAjuda) {
             setTitle("Ajuda e perguntas frequentes");
             Ajuda fragment = new Ajuda();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fram, fragment, "Ajuda");
+            fragmentTransaction.commit();
+        }else if(id==R.id.framMudaFoto){
+            setTitle("Alterar dados cadastrados");
+            Cadastro fragment = new Cadastro();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fram, fragment, "Altera Cadastro");
             fragmentTransaction.commit();
         } else if (id == R.id.logout) {
             logout();

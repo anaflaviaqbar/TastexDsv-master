@@ -7,6 +7,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/framMudaFoto"
+            android:title="Alterar Perfil"
+            android:icon="@drawable/editaperfil"
+            />
+        <item
             android:id="@+id/framCompra"
             android:icon="@drawable/compra"
             android:title="Comprar"

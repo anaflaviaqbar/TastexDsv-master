@@ -9,38 +9,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-
-        <ImageView
-            android:layout_marginTop="8dp"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@mipmap/prato"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Cadastrar prato"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/edtNomePrato"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:hint="Nome do prato"
-            android:layout_marginTop="32dp"
-            android:inputType="text"/>
+            android:inputType="text" />
+
         <EditText
             android:id="@+id/edtDescPrato"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Descrição do prato"
-            android:inputType="text"/>
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/edtPrecoPrato"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
             android:hint="Preço"
-            android:inputType="numberDecimal"/>
-
+            android:inputType="numberDecimal" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/openImage"
+            android:layout_marginTop="40dp"
+            android:text="Adicione Imagem"/>
     </LinearLayout>
 
     <Button
@@ -48,11 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000000"
-        android:backgroundTint="@color/colorSecundary"
-        android:text="Adicionar Prato"/>
-
-
-
+        android:layout_marginBottom="46dp"
+        android:text="ADICIONAR"
+        android:textSize="10dp" />
 </RelativeLayout>

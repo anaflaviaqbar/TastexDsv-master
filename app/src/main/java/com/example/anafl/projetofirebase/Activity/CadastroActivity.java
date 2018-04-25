@@ -47,6 +47,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     private boolean isFeminino = false;
     private boolean isMasculino = false;
+    private boolean res= false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +75,15 @@ public class CadastroActivity extends AppCompatActivity {
         btnGravar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validaCampos();
-                if(edtCadSenha.getText().toString().equals(edtConfSenha.getText().toString())){
-                    cadastrarUsuario(edtCadEmail.getText().toString(), edtCadSenha.getText().toString());
-                }else{
-                    Toast.makeText(CadastroActivity.this, "Senhas diferentes!", Toast.LENGTH_LONG).show();
+                if(validaCampos(res)==false){
+                    if (edtCadSenha.getText().toString().equals(edtConfSenha.getText().toString())) {
+                        cadastrarUsuario(edtCadEmail.getText().toString(), edtCadSenha.getText().toString());
+                    } else {
+                        Toast.makeText(CadastroActivity.this, "Senhas diferentes!", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
-
     }
 
     private void cadastrarUsuario(String email, String password) {
@@ -93,14 +94,14 @@ public class CadastroActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            writeNewUser(user.getUid());
-                            Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_LONG).show();
-                            finish();
-                            //updateUI(user);
-                        }
+                                // Sign in success, update UI with the signed-in user's information
+                                //Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                writeNewUser(user.getUid());
+                                Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_LONG).show();
+                                finish();
+                                //updateUI(user);
+                            }
                         if(!task.isSuccessful()) {
                             try{
                                 throw task.getException();
@@ -113,7 +114,6 @@ public class CadastroActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(CadastroActivity.this, "Authentication failed",Toast.LENGTH_SHORT).show();
@@ -137,7 +137,7 @@ public class CadastroActivity extends AppCompatActivity {
         finish();
     }*/
 
-    public void checaSexo(View v) {
+   /* public void checaSexo(View v) {
         boolean checked = ((RadioButton) v).isChecked();
 
         switch (v.getId()) {
@@ -145,18 +145,36 @@ public class CadastroActivity extends AppCompatActivity {
                 if (checked) {
                     isFeminino = true;
                     isMasculino = false;
-                    //Toast.makeText(CadastroActivity.this, "Feminino", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.rbMasculino:
                 if (checked) {
                     isFeminino = false;
                     isMasculino = true;
-                    //Toast.makeText(CadastroActivity.this, "Masculino", Toast.LENGTH_LONG).show();
                 }
         }
-    }
+    }*/
+    /*
+        private void escreverNovoUsuario(String userId) {
+            Usuario usuario = new Usuario();
 
+            usuario.setNome(edtCadNome.getText().toString());
+            usuario.setEmail(edtCadEmail.getText().toString());
+            usuario.setCep(edtCadCep.getText().toString());
+            usuario.setTelefone(edtCadContato.getText().toString());
+            usuario.setDataNasc(edtCadDataNasc.getText().toString());
+            usuario.setSenha(edtCadSenha.getText().toString());
+
+            if(isFeminino){
+                usuario.setSexo("Feminino");
+            }else if(isMasculino){
+                usuario.setSexo("Masculino");
+            }
+            usuario.setId(userId);
+
+            database.child("users").child(userId).setValue(usuario);
+        }
+        */
     private void writeNewUser(String userId) {
         Usuario usuario = new Usuario();
 
@@ -175,37 +193,40 @@ public class CadastroActivity extends AppCompatActivity {
 
         mDatabase.child("users").child(userId).setValue(usuario);
     }
-    public void validaCampos() {
-        boolean res = false;
+    public boolean validaCampos(boolean res) {
         String nome = edtCadNome.getText().toString();
         String email = edtCadEmail.getText().toString();
         String senha = edtCadSenha.getText().toString();
         String confsenha = edtConfSenha.getText().toString();
         String cep = edtCadCep.getText().toString();
         String datanasc = edtCadDataNasc.getText().toString();
+        String telefone = edtCadContato.getText().toString();
 
-        if (res = campoVazio(nome)) {
+        if (this.res = campoVazio(nome)) {
             edtCadNome.requestFocus();
-        } else if (res = campoVazio(cep)) {
+        } else if (this.res = campoVazio(cep)) {
             edtCadCep.requestFocus();
-        }else if (res = campoVazio(email)) {
+        } else if (this.res = campoVazio(email)) {
             edtCadEmail.requestFocus();
-        }else if (res = campoVazio(senha)) {
+        } else if (this.res = campoVazio(senha)) {
             edtCadSenha.requestFocus();
-        }else if(res = campoVazio(confsenha)) {
+        } else if (this.res = campoVazio(confsenha)) {
             edtConfSenha.requestFocus();
-        }else if (res = campoVazio(datanasc)){
+        } else if (this.res = campoVazio(datanasc)) {
             edtCadDataNasc.requestFocus();
+        } else if (this.res = campoVazio(telefone)) {
+            edtCadContato.requestFocus();
 
         }
 
-        if(res){
+        if (this.res) {
             AlertDialog.Builder dlg = new AlertDialog.Builder(this);
             dlg.setTitle("Aviso");
             dlg.setMessage("Preencha todos os campos");
-            dlg.setNeutralButton("ok", null);
+            dlg.setNeutralButton("OK", null);
             dlg.show();
         }
+        return this.res;
     }
     private boolean campoVazio(String valor){
         boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
