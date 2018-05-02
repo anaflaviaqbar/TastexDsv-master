@@ -17,9 +17,11 @@ import java.util.List;
 public class PratoAdapter extends RecyclerView.Adapter<PratoAdapter.ViewHolderPrato> {
 
     private List<Prato> dados;
+    public static ClickRecyclerViewInterfacePrato clickRecyclerViewInterfacePrato;
 
-    public PratoAdapter(List<Prato> dados){
+    public PratoAdapter(List<Prato> dados, ClickRecyclerViewInterfacePrato clickRecyclerViewInterfacePrato){
         this.dados = dados;
+        this.clickRecyclerViewInterfacePrato = clickRecyclerViewInterfacePrato;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class PratoAdapter extends RecyclerView.Adapter<PratoAdapter.ViewHolderPr
         return dados.size();
     }
 
-    public class ViewHolderPrato extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolderPrato extends RecyclerView.ViewHolder{
 
         public TextView txtNomePrato;
         public TextView txtDescricaoPrato;
@@ -57,16 +59,19 @@ public class PratoAdapter extends RecyclerView.Adapter<PratoAdapter.ViewHolderPr
         public ViewHolderPrato(View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(this);
 
             txtNomePrato = (TextView) itemView.findViewById(R.id.txtNomePrato);
             txtDescricaoPrato = (TextView) itemView.findViewById(R.id.txtDescricaoPrato);
             txtPrecoPrato = (TextView) itemView.findViewById(R.id.txtPrecoPrato);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickRecyclerViewInterfacePrato.onCustomClick(dados.get(getLayoutPosition()));
+                }
+            });
         }
 
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(v.getContext(), "Clicou! ", Toast.LENGTH_LONG).show();
-        }
+
     }
 }

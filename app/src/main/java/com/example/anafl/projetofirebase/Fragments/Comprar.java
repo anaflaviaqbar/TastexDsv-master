@@ -1,6 +1,7 @@
 package com.example.anafl.projetofirebase.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.anafl.projetofirebase.Activity.PaginaVendedor;
 import com.example.anafl.projetofirebase.Entidades.Usuario;
+import com.example.anafl.projetofirebase.Listas.ClickRecyclerViewInterfaceVendedor;
 import com.example.anafl.projetofirebase.Listas.VendedorAdapter;
 import com.example.anafl.projetofirebase.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +33,7 @@ import java.util.List;
  * {@link Comprar.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class Comprar extends Fragment {
+public class Comprar extends Fragment implements ClickRecyclerViewInterfaceVendedor {
 
     private OnFragmentInteractionListener mListener;
 
@@ -31,7 +41,12 @@ public class Comprar extends Fragment {
     private VendedorAdapter vendedorAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private List<Usuario> listVendedores;
+    private View view;
+
+    //private List<Usuario> listVendedores;
+
+    private DatabaseReference databaseReference;
+
     public Comprar() {
         // Required empty public constructor
     }
@@ -40,45 +55,57 @@ public class Comprar extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_comprar, container, false);
+        view = inflater.inflate(R.layout.fragment_comprar, container, false);
 
 
+        instanciarFirebase();
 
 
-        criarListaVendedores();
+        lerUsuarios();
+
+        return view;
+    }
+
+    private void instanciarFirebase() {
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+    }
+
+    private void lerUsuarios(){
+        Query query;
+        query = databaseReference.child("users").orderByChild("id");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Usuario> listaUsuarios = new ArrayList<>();
+                for (DataSnapshot objSnapShot:dataSnapshot.getChildren()){
+                    Usuario usuario = objSnapShot.getValue(Usuario.class);
+
+                    listaUsuarios.add(usuario);
+                }
+                instanciarRecyclerView(view, listaUsuarios);
+                Toast.makeText(getContext(), "Leu os dados", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void instanciarRecyclerView(View view, List<Usuario> listUsuario){
 
         //Aqui é instanciado o Recyclerview
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_vendedores);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        vendedorAdapter = new VendedorAdapter(listVendedores);
+        vendedorAdapter = new VendedorAdapter(listUsuario, this);
         mRecyclerView.setAdapter(vendedorAdapter);
 
-        return view;
 
-
-
-    }
-
-    private void criarListaVendedores() {
-
-        listVendedores = new ArrayList<Usuario>();
-
-        listVendedores.add(new Usuario("Ronaldo"));
-        listVendedores.add(new Usuario("Neymar"));
-        listVendedores.add(new Usuario("Ciclano"));
-        listVendedores.add(new Usuario("Teste"));
-        listVendedores.add(new Usuario("Fulana"));
-        listVendedores.add(new Usuario("Maria"));
-        listVendedores.add(new Usuario("Mariana"));
-        listVendedores.add(new Usuario("Ronaldo"));
-        listVendedores.add(new Usuario("Neymar"));
-        listVendedores.add(new Usuario("Ciclano"));
-        listVendedores.add(new Usuario("Teste"));
-        listVendedores.add(new Usuario("Fulana"));
-        listVendedores.add(new Usuario("Maria"));
-        listVendedores.add(new Usuario("Mariana"));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -103,6 +130,16 @@ public class Comprar extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCustomClick(Object object) {
+        Usuario usuarioAtual = (Usuario) object;
+
+        Intent paginaVendedor = new Intent(getContext(), PaginaVendedor.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("idVendedor", usuarioAtual.getId());
+        startActivity(paginaVendedor);
     }
 
     /**

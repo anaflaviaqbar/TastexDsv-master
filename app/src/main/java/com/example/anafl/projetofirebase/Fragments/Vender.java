@@ -15,7 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.anafl.projetofirebase.Activity.AdicionarPratoActivity;
+import com.example.anafl.projetofirebase.Activity.EditarPrato;
 import com.example.anafl.projetofirebase.Entidades.Prato;
+import com.example.anafl.projetofirebase.Entidades.Usuario;
+import com.example.anafl.projetofirebase.Listas.ClickRecyclerViewInterfacePrato;
 import com.example.anafl.projetofirebase.Listas.PratoAdapter;
 import com.example.anafl.projetofirebase.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +39,7 @@ import java.util.List;
  * {@link Vender.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class Vender extends Fragment{
+public class Vender extends Fragment implements ClickRecyclerViewInterfacePrato{
 
     private DatabaseReference mDatabaseReference;
 
@@ -129,7 +132,7 @@ public class Vender extends Fragment{
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        pratoAdapter = new PratoAdapter(listPratos);
+        pratoAdapter = new PratoAdapter(listPratos, this);
         mRecyclerView.setAdapter(pratoAdapter);
 
 
@@ -157,6 +160,21 @@ public class Vender extends Fragment{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCustomClick(Object object) {
+        Prato pratoAtual = (Prato) object;
+
+        Intent intent = new Intent(getContext(), EditarPrato.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("nome", pratoAtual.getNome());
+        bundle.putString("descricao", pratoAtual.getDescricao());
+        bundle.putString("idVendedor", pratoAtual.getIdVendedor());
+        bundle.putFloat("preco", pratoAtual.getPreco());
+        bundle.putString("uidPrato", pratoAtual.getUidPrato());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

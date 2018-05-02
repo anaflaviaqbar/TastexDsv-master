@@ -6,6 +6,7 @@ public class Prato {
     private String nome;
     private float preco;
     private String descricao;
+    private String uidPrato;
 
     public Prato (){
 
@@ -50,4 +51,11 @@ public class Prato {
     }
 
 
+    public String getUidPrato() {
+        return uidPrato;
+    }
+
+    public void setUidPrato(String uidPrato) {
+        this.uidPrato = uidPrato;
+    }
 }

@@ -16,10 +16,12 @@ import java.util.List;
 public class VendedorAdapter extends RecyclerView.Adapter<VendedorAdapter.ViewHolderVendedor> {
 
     private List<Usuario> dados;
+    public static ClickRecyclerViewInterfaceVendedor clickRecyclerViewInterfaceVendedor;
 
 
-    public VendedorAdapter(List<Usuario> dados){
+    public VendedorAdapter(List<Usuario> dados, ClickRecyclerViewInterfaceVendedor clickRecyclerViewInterfaceVendedor){
         this.dados = dados;
+        this.clickRecyclerViewInterfaceVendedor = clickRecyclerViewInterfaceVendedor;
     }
 
 
@@ -57,12 +59,22 @@ public class VendedorAdapter extends RecyclerView.Adapter<VendedorAdapter.ViewHo
         public TextView txtTitulo;
         public TextView txtDistancia;
 
-        public ViewHolderVendedor(View v) {
-            super(v);
+        public ViewHolderVendedor(View itemView) {
+            super(itemView);
 
 
             txtTitulo = (TextView) itemView.findViewById(R.id.txtTituloVendedor);
             txtDistancia = (TextView) itemView.findViewById(R.id.txtDistanciaVendedor);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickRecyclerViewInterfaceVendedor.onCustomClick(dados.get(getLayoutPosition()));
+                }
+            });
+
+
         }
 
     }

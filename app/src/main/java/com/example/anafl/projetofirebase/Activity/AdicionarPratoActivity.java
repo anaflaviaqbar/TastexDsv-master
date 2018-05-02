@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.anafl.projetofirebase.Entidades.Prato;
-import com.example.anafl.projetofirebase.Manifest;
+//import com.example.anafl.projetofirebase.Manifest;
 import com.example.anafl.projetofirebase.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class AdicionarPratoActivity extends AppCompatActivity {
 
@@ -106,10 +107,11 @@ public class AdicionarPratoActivity extends AppCompatActivity {
 
             novoPrato.setIdVendedor(userId);
             novoPrato.setNome(nomePrato.getText().toString());
-            novoPrato.setDescricao(nomePrato.getText().toString());
+            novoPrato.setDescricao(descPrato.getText().toString());
             novoPrato.setPreco(Float.parseFloat(precoPrato.getText().toString()));
+            novoPrato.setUidPrato(UUID.randomUUID().toString());
 
-            mDatabase.child("pratos").push().setValue(novoPrato);
+            mDatabase.child("pratos").child(novoPrato.getUidPrato()).setValue(novoPrato);
 
         }
     /*

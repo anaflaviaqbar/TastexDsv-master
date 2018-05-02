@@ -76,7 +76,9 @@
         <activity android:name=".Activity.EsqueceuSenha" />
         <activity android:name=".Activity.AdicionarPratoActivity" />
         <activity android:name=".Activity.AlteraCadastro" />
-        <activity android:name=".Activity.AdicionarImagem"></activity>
+        <activity android:name=".Activity.AdicionarImagem" />
+        <activity android:name=".Activity.EditarPrato" />
+        <activity android:name=".Activity.PaginaVendedor"></activity>
     </application>
 
 </manifest>
