@@ -7,6 +7,7 @@
     tools:context=".Activity.AdicionarPratoActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -14,7 +15,8 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Cadastrar prato"
             android:textColor="@color/colorPrimary"
             android:textSize="20dp" />
@@ -41,20 +43,58 @@
             android:layout_marginTop="30sp"
             android:hint="Preço"
             android:inputType="numberDecimal" />
-        <Button
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/openImage"
-            android:layout_marginTop="40dp"
-            android:text="Adicione Imagem"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/btnEscolherImagem"
+                android:text="Escolher Imagem"/>
+
+            <Button
+                android:id="@+id/btnUploadImagem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Baixar Imagem"/>
+
+
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imagemEscolhida"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/progressBar"
+        android:layout_below="@id/linearLayout"
+        />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:layout_above="@+id/btnAddPrato"
+        android:layout_alignParentStart="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:id="@+id/btnAddPrato"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="46dp"
-        android:text="ADICIONAR"
-        android:textSize="10dp" />
+        android:text="Adicionar"
+        android:textSize="18dp" />
 </RelativeLayout>

@@ -47,6 +47,8 @@ public class AdicionarImagem extends AppCompatActivity {
 
     private Uri mImageUri;
 
+    private String idPrato;
+
     public AdicionarImagem() {
     }
 
@@ -54,6 +56,10 @@ public class AdicionarImagem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_imagem);
+
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        idPrato = bundle.getString("idPrato");
 
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
@@ -63,7 +69,7 @@ public class AdicionarImagem extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Imagens");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Imagens");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("imagens");
 
 
         buttonChoose.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +84,7 @@ public class AdicionarImagem extends AppCompatActivity {
                 if(mUploadTask != null && mUploadTask.isInProgress()){
                     Toast.makeText(AdicionarImagem.this, "Imagem sendo carregada", Toast.LENGTH_SHORT).show();
                 }
-                baixarImagem();
+                uploadImagem();
             }
         });
         /*
@@ -139,7 +145,7 @@ public class AdicionarImagem extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
-    public void baixarImagem(){
+    public void uploadImagem(){
         if(mImageUri != null){
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
 
@@ -155,7 +161,7 @@ public class AdicionarImagem extends AppCompatActivity {
                         }
                     }, 5000);
                     Toast.makeText(AdicionarImagem.this, "Imagem adicionada", Toast.LENGTH_SHORT).show();
-                    Upload upload = new Upload(editText.getText().toString().trim(),taskSnapshot.getDownloadUrl().toString());
+                    Upload upload = new Upload(editText.getText().toString().trim(),taskSnapshot.getDownloadUrl().toString(), idPrato);
                     String uploadId = mDatabaseRef.push().getKey();
                     mDatabaseRef.child(uploadId).setValue(upload);
                 }

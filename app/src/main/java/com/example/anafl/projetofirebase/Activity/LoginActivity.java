@@ -1,5 +1,6 @@
 package com.example.anafl.projetofirebase.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -180,6 +181,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Login Email e Senha
     public void signIn(String email, String password){
+        final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Login", "Espere um pouco...",true);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -201,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                             //updateUI(null);
 
                         }
-
+                        progressDialog.dismiss();
                         // ...
                     }
                 });
