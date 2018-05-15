@@ -7,6 +7,7 @@ public class Prato {
     private float preco;
     private String descricao;
     private String uidPrato;
+    private int tipoPrato;  /* 0 - Sem Classificação ,1 - Normal, 2 - Low Carb, 4 - Vegetariano, 5 - Vegano */
 
     public Prato (){
 
@@ -57,5 +58,13 @@ public class Prato {
 
     public void setUidPrato(String uidPrato) {
         this.uidPrato = uidPrato;
+    }
+
+    public int getTipoPrato() {
+        return tipoPrato;
+    }
+
+    public void setTipoPrato(int tipoPrato) {
+        this.tipoPrato = tipoPrato;
     }
 }

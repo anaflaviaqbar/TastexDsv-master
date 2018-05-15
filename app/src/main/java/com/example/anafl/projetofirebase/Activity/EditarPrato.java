@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.anafl.projetofirebase.Entidades.Prato;
@@ -28,6 +31,8 @@ public class EditarPrato extends AppCompatActivity {
     private float precoPrato;
     private String idVendedor;
     private String uidPrato;
+    private int tipoPrato;
+    private Spinner spinTipoPrato;
 
     private EditText edtNomePrato;
     private EditText edtDescPrato;
@@ -54,6 +59,7 @@ public class EditarPrato extends AppCompatActivity {
         precoPrato = bundle.getFloat("preco");
         idVendedor = bundle.getString("idVendedor");
         uidPrato = bundle.getString("uidPrato");
+        tipoPrato = 0;
 
         edtNomePrato = (EditText)findViewById(R.id.edtNomePratoEditAct);
         edtNomePrato.setText(nomePrato);
@@ -94,6 +100,46 @@ public class EditarPrato extends AppCompatActivity {
                 Toast.makeText(EditarPrato.this, "Prato editado!", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
+        // Configuração do Spinner
+        spinTipoPrato = (Spinner) findViewById(R.id.spinTipoPratoEditarPrato);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tipos_pratos, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinTipoPrato.setAdapter(adapter);
+        spinTipoPrato.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String stgTipoPrato = parent.getItemAtPosition(position).toString();
+                switch (stgTipoPrato){
+                    case "Sem Classificação":
+                        tipoPrato = 0;
+                        break;
+                    case "Normal":
+                        tipoPrato = 1;
+                        break;
+                    case "Low Carb":
+                        tipoPrato = 2;
+                        break;
+                    case "Vegetariano":
+                        tipoPrato = 3;
+                        break;
+                    case "Vegano":
+                        tipoPrato = 4;
+                        break;
+                    default:
+                        tipoPrato = 0;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                tipoPrato = 0;
+            }
+        });
+        //Fim Configuração Spinner
 
 
 

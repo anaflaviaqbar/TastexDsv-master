@@ -48,6 +48,18 @@
             android:inputType="numberDecimal"
             tools:text="10"
             android:textSize="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tipo do Prato"
+            android:textSize="24dp"/>
+
+        <Spinner
+            android:id="@+id/spinTipoPratoEditarPrato"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+
+        </Spinner>
 
 
     </LinearLayout>

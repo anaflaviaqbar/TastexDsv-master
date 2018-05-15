@@ -14,10 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.anafl.projetofirebase.Entidades.Prato;
@@ -49,6 +52,8 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     private EditText descPrato;
     private EditText precoPrato;
     private String idPrato;
+    private Spinner spinTipoPrato;
+    private int tipoPrato;
 
     private Button mSelectImage;
     private ImageView imageView;
@@ -90,6 +95,45 @@ public class AdicionarPratoActivity extends AppCompatActivity {
         descPrato = (EditText) findViewById(R.id.edtDescPrato);
         precoPrato = (EditText) findViewById(R.id.edtPrecoPrato);
         //openImage = (Button) findViewById(R.id.openImage);
+        tipoPrato = 0;
+
+        // Configuração do Spinner
+        spinTipoPrato = (Spinner) findViewById(R.id.spinTipoPrato);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tipos_pratos, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinTipoPrato.setAdapter(adapter);
+        spinTipoPrato.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String stgTipoPrato = parent.getItemAtPosition(position).toString();
+                switch (stgTipoPrato){
+                    case "Sem Classificação":
+                        tipoPrato = 0;
+                        break;
+                    case "Normal":
+                        tipoPrato = 1;
+                        break;
+                    case "Low Carb":
+                        tipoPrato = 2;
+                        break;
+                    case "Vegetariano":
+                        tipoPrato = 3;
+                        break;
+                    case "Vegano":
+                        tipoPrato = 4;
+                        break;
+                    default:
+                        tipoPrato = 0;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                tipoPrato = 0;
+            }
+        });
+        //Fim Configuração Spinner
 
         //imagem
         btnEscolherImagem = (Button) findViewById(R.id.btnEscolherImagem);
@@ -257,47 +301,10 @@ public class AdicionarPratoActivity extends AppCompatActivity {
         novoPrato.setPreco(Float.parseFloat(precoPrato.getText().toString()));
         //novoPrato.setUidPrato(UUID.randomUUID().toString());
         novoPrato.setUidPrato(idPrato);
+        novoPrato.setTipoPrato(tipoPrato);
 
         mDatabase.child("pratos").child(idPrato).setValue(novoPrato);
 
     }
-    /*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
-    {
-        switch (requestCode) {
-            case GALLERY_INTENT:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, GALLERY_INTENT);
-                } else {
-                    Toast.makeText(AdicionarPratoActivity.this, "Habilite permissão", Toast.LENGTH_LONG).show();
-                }
-                break;
-        }
-    }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode== GALLERY_INTENT && resultCode==RESULT_OK){
-
-            filePath = data.getData();
-
-            StorageReference filepath= mStorage.child("Imagens pratos").child(filePath.getLastPathSegment());
-            try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-
-            filepath.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    Toast.makeText(AdicionarPratoActivity.this, "Upload feito", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }*/
 }
