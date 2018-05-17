@@ -128,7 +128,7 @@ public class Vender extends Fragment implements ClickRecyclerViewInterfacePrato{
 
         //Aqui é instanciado o Recyclerview
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_pratos);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rvPratosFragVender);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 

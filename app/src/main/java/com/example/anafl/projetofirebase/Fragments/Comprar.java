@@ -139,6 +139,7 @@ public class Comprar extends Fragment implements ClickRecyclerViewInterfaceVende
         Intent paginaVendedor = new Intent(getContext(), PaginaVendedor.class);
         Bundle bundle = new Bundle();
         bundle.putString("idVendedor", usuarioAtual.getId());
+        paginaVendedor.putExtras(bundle);
         startActivity(paginaVendedor);
     }
 

@@ -20,7 +20,7 @@
             android:textSize="24sp" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_pratos"
+            android:id="@+id/rvPratosFragVender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
