@@ -7,7 +7,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/framMudaFoto"
+            android:id="@+id/framCadastro"
             android:title="Alterar Perfil"
             android:icon="@drawable/editaperfil"
             />
@@ -21,13 +21,13 @@
             android:icon="@drawable/vendas"
             android:title="Vender" />
         <item
-            android:id="@+id/framAviso"
-            android:icon="@drawable/avisos"
-            android:title="Avisos" />
+            android:id="@+id/framSolicitacoesCompra"
+            android:icon="@drawable/solicitacoescompra"
+            android:title="Solicitações Compra" />
         <item
-            android:id="@+id/framConfiguracao"
-            android:icon="@drawable/config"
-            android:title="Configuração" />
+            android:id="@+id/framSolicitacoesVenda"
+            android:icon="@drawable/solicitacoesvenda"
+            android:title="Solicitações Venda" />
     </group>
 
     <item android:title="Histórico">
@@ -44,9 +44,6 @@
     </item>
     <item android:title="">
         <menu>
-            <item android:id="@+id/framAjuda"
-                android:icon="@drawable/ajuda"
-                android:title="Ajuda" />
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/logout"

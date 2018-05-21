@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.anafl.projetofirebase.R;
 import com.example.anafl.projetofirebase.Upload;
+import com.example.anafl.projetofirebase.showImages;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +32,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class AdicionarImagem extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -42,6 +45,7 @@ public class AdicionarImagem extends AppCompatActivity {
     private ProgressBar progressBar;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    private boolean res= false;
 
     private StorageTask mUploadTask;
 
@@ -67,6 +71,7 @@ public class AdicionarImagem extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
         imageView = (ImageView) findViewById(R.id.imageView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        showUpload = (TextView) findViewById(R.id.showUpload);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Imagens");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("imagens");
@@ -81,26 +86,20 @@ public class AdicionarImagem extends AppCompatActivity {
         buttonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mUploadTask != null && mUploadTask.isInProgress()){
+                if(validaCampos(res)==false){
+                } else if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(AdicionarImagem.this, "Imagem sendo carregada", Toast.LENGTH_SHORT).show();
                 }
                 uploadImagem();
             }
         });
-        /*
         showUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            openImagesActivity();
             }
         });
-            }*/
-        //     }
-        //   });
-        // }
-
-    }
-
+            }
     private void abrirImagens() {
         try {
             if (ActivityCompat.checkSelfPermission(AdicionarImagem.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -136,7 +135,7 @@ public class AdicionarImagem extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
 
-            Picasso.get().load(mImageUri).into(imageView);
+         //   Picasso.get().load(mImageUri).into(imageView);
         }
     }
 
@@ -181,5 +180,30 @@ public class AdicionarImagem extends AppCompatActivity {
         }else {
             Toast.makeText(this, "Nenhuma imagem selecionada", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void openImagesActivity() {
+        Intent intent = new Intent(this, showImages.class);
+        startActivity(intent);
+    }
+    public boolean validaCampos(boolean res) {
+        String nome = editText.getText().toString();
+
+
+        if (this.res = campoVazio(nome)) {
+            editText.requestFocus();
+        }
+
+        if (this.res) {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+            dlg.setTitle("Aviso");
+            dlg.setMessage("Preencha o nome da imagem");
+            dlg.setNeutralButton("OK", null);
+            dlg.show();
+        }
+        return this.res;
+    }
+    private boolean campoVazio(String valor){
+        boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
+        return resultado;
     }
 }

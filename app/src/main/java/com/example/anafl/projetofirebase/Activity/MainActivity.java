@@ -1,7 +1,7 @@
 package com.example.anafl.projetofirebase.Activity;
 
-import android.net.Uri;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -13,21 +13,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.anafl.projetofirebase.Fragments.Ajuda;
-import com.example.anafl.projetofirebase.Fragments.Avisos;
-import com.example.anafl.projetofirebase.Fragments.Cadastro;
+import com.example.anafl.projetofirebase.Fragments.AlterarPerfil;
 import com.example.anafl.projetofirebase.Fragments.Comprar;
 import com.example.anafl.projetofirebase.Fragments.Compras;
-import com.example.anafl.projetofirebase.Fragments.Configuracao;
+import com.example.anafl.projetofirebase.Fragments.SolicitacoesCompra;
+import com.example.anafl.projetofirebase.Fragments.SolicitacoesVenda;
 import com.example.anafl.projetofirebase.Fragments.Vendas;
 import com.example.anafl.projetofirebase.Fragments.Vender;
 import com.example.anafl.projetofirebase.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity implements Avisos.OnFragmentInteractionListener,
-        Configuracao.OnFragmentInteractionListener, Comprar.OnFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements SolicitacoesCompra.OnFragmentInteractionListener, Comprar.OnFragmentInteractionListener,
         Vender.OnFragmentInteractionListener,Vendas.OnFragmentInteractionListener,
-        Compras.OnFragmentInteractionListener,Ajuda.OnFragmentInteractionListener,
+        Compras.OnFragmentInteractionListener,SolicitacoesVenda.OnFragmentInteractionListener, AlterarPerfil.OnFragmentInteractionListener,
                 NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -39,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
         //setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -108,17 +107,17 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fram, fragment, "Vender");
             fragmentTransaction.commit();
-        } else if (id == R.id.framAviso) {
-            setTitle("Avisos");
-            Avisos fragment = new Avisos();
+        } else if (id == R.id.framSolicitacoesCompra) {
+            setTitle("Solicitações Compra");
+            SolicitacoesCompra fragment = new SolicitacoesCompra();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fram, fragment, "Avisos");
+            fragmentTransaction.replace(R.id.fram, fragment, "Solicitações Compra");
             fragmentTransaction.commit();
-        } else if (id == R.id.framConfiguracao) {
-            setTitle("Configuracao");
-            Configuracao fragment = new Configuracao();
+        } else if (id == R.id.framSolicitacoesVenda) {
+            setTitle("Solicitações Venda");
+            SolicitacoesVenda fragment = new SolicitacoesVenda();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fram, fragment, "Configuração");
+            fragmentTransaction.replace(R.id.fram, fragment, "Solicitações Venda");
             fragmentTransaction.commit();
 
         } else if (id == R.id.framHistoricoC) {
@@ -134,19 +133,12 @@ public class MainActivity extends AppCompatActivity implements Avisos.OnFragment
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fram, fragment, "Vendas");
             fragmentTransaction.commit();
-
-        }else if(id==R.id.framAjuda) {
-            setTitle("Ajuda e perguntas frequentes");
-            Ajuda fragment = new Ajuda();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fram, fragment, "Ajuda");
-            fragmentTransaction.commit();
-        }else if(id==R.id.framMudaFoto){
-            setTitle("Alterar dados cadastrados");
-            Cadastro fragment = new Cadastro();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fram, fragment, "Altera Cadastro");
-            fragmentTransaction.commit();
+        }else if (id == R.id.framCadastro) {
+                setTitle("Vender");
+                AlterarPerfil fragment = new AlterarPerfil();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fram, fragment, "Alterar perfil");
+                fragmentTransaction.commit();
         } else if (id == R.id.logout) {
             logout();
         }

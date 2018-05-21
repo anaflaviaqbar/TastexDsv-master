@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="Mostra imagens"
         android:layout_marginTop="465dp"
-        android:layout_marginLeft="235dp"
+        android:layout_marginLeft="200dp"
         android:textSize="20dp"
         android:layout_alignBaseline="@+id/buttonUpload"
         />
