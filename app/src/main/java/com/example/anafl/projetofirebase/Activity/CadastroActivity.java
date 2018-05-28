@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -98,8 +99,7 @@ public class CadastroActivity extends AppCompatActivity {
                                 //Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 writeNewUser(user.getUid());
-                                Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_LONG).show();
-                                finish();
+
                                 //updateUI(user);
                             }
                         if(!task.isSuccessful()) {
@@ -191,7 +191,17 @@ public class CadastroActivity extends AppCompatActivity {
         }
         usuario.setId(userId);
 
-        mDatabase.child("users").child(userId).setValue(usuario);
+        mDatabase.child("users").child(userId).setValue(usuario, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if(databaseError != null){
+                    Toast.makeText(CadastroActivity.this, "Erro ao cadastrar usuario no banco. Erro: "+ databaseError, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        });
     }
     public boolean validaCampos(boolean res) {
         String nome = edtCadNome.getText().toString();

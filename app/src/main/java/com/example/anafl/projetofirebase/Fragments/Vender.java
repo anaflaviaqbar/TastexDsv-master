@@ -51,7 +51,7 @@ public class Vender extends Fragment implements ClickRecyclerViewInterfacePrato{
 
     private FloatingActionButton btnAdicionarPrato;
 
-    //private List<Prato> listPratos = new ArrayList<Prato>();
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,6 +75,8 @@ public class Vender extends Fragment implements ClickRecyclerViewInterfacePrato{
 
 
 
+
+
         btnAdicionarPrato = (FloatingActionButton) view.findViewById(R.id.btnAdicionarPrato);
         btnAdicionarPrato.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +89,7 @@ public class Vender extends Fragment implements ClickRecyclerViewInterfacePrato{
 
         return view;
     }
+
 
 
 
@@ -114,7 +117,7 @@ public class Vender extends Fragment implements ClickRecyclerViewInterfacePrato{
                     listPratos.add(p);
                 }
                 instanciarRecyclerView(view, listPratos);
-                Toast.makeText(getContext(), "Leu os dados", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Leu os dados", Toast.LENGTH_LONG).show();
             }
 
             @Override

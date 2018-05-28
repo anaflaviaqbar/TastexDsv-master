@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.anafl.projetofirebase.Activity.MainActivity;
 import com.example.anafl.projetofirebase.Activity.PaginaVendedor;
 import com.example.anafl.projetofirebase.Entidades.Usuario;
 import com.example.anafl.projetofirebase.Listas.ClickRecyclerViewInterfaceVendedor;
@@ -43,7 +44,9 @@ public class Comprar extends Fragment implements ClickRecyclerViewInterfaceVende
 
     private View view;
 
-    //private List<Usuario> listVendedores;
+
+
+
 
     private DatabaseReference databaseReference;
 
@@ -62,6 +65,7 @@ public class Comprar extends Fragment implements ClickRecyclerViewInterfaceVende
 
 
         lerUsuarios();
+
 
         return view;
     }
@@ -85,7 +89,7 @@ public class Comprar extends Fragment implements ClickRecyclerViewInterfaceVende
                     listaUsuarios.add(usuario);
                 }
                 instanciarRecyclerView(view, listaUsuarios);
-                Toast.makeText(getContext(), "Leu os dados", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, "Leu os dados", Toast.LENGTH_LONG).show();
             }
 
             @Override
